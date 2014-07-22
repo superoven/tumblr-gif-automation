@@ -1,0 +1,6 @@
+#!/bin/bash
+
+fifo="/home/taylor/.mplayer_fifo"
+command="$*"
+
+echo $command > "$fifo"
