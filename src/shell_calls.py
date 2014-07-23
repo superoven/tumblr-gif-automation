@@ -2,11 +2,6 @@ from subprocess import call
 from os import devnull, listdir
 
 
-def break_if_fail(*input_commands):
-    commands = list(input_commands)
-    #TODO: Working on this
-
-
 def make_temp_dir(base_dir, uid):
     with open(devnull) as dev_null:
         directory = "%s/%s" % (base_dir, uid)
@@ -27,9 +22,8 @@ def rip_images(first_time, second_time, filename, temp_dir):
 
 
 def make_gif(temp_directory, output_directory):
-    command = ["./makegif", str(len(listdir(temp_directory))), output_directory, temp_directory]
     print "Making GIF(s)..."
-    return call(command)
+    return call(["scripts/makegif", str(len(listdir(temp_directory))), output_directory, temp_directory])
 
 
 def open_gif(filename):

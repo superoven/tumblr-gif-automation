@@ -5,7 +5,7 @@ NO_ANSWERS = {'n', 'no'}
 
 
 def getfilename(file_desc):
-    call(["./sendm", "get_file_name"])
+    call(["scripts/sendm", "get_file_name"])
     return wait_string(file_desc, 'ANS_FILENAME')
 
 
