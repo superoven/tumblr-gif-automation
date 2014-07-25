@@ -1,11 +1,12 @@
 from subprocess import call
+from config import ROOT_DIR
 
 YES_ANSWERS = {'', 'y', 'ye', 'yes'}
 NO_ANSWERS = {'n', 'no'}
 
 
 def getfilename(file_desc):
-    call(["scripts/sendm", "get_file_name"])
+    call([ROOT_DIR + "scripts/sendm", "get_file_name"])
     return wait_string(file_desc, 'ANS_FILENAME')
 
 
