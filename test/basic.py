@@ -19,7 +19,8 @@ invalid_input_values = [
 
 def _test_basic(inputs, correct_output):
     with open(FIFO, "r") as f:
-        ret, filename = output(inputs[0], inputs[1], f)
+        first, last = inputs
+        ret, filename = output(first, last, f)
         assert ret == correct_output
     return filename
 
