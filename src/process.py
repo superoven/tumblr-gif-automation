@@ -1,19 +1,15 @@
 from subprocess import call
 from receive import getfilename, yes_or_no
 from shell_calls import make_temp_dir, rip_images, make_gif, open_gif
+from config import TAGS_FILE, OUTPUT_DIRECTORY, BASE_DIRECTORY
 import uuid
-
-fifo = '/home/taylor/.mplayer_fifo.out'
-baseDirectory = '/tmp/mplayer'
-outputDirectory = 'output'
-tags_file = "/home/taylor/.tumblr_default_tags"
-
-with open(tags_file, 'r') as f:
-    default_tags = f.read().split(',')
 
 
 def clean_tags(s):
     return s.split(',').map(lambda x: x.lstrip().rstrip())
+
+with open(TAGS_FILE, 'r') as f:
+    default_tags = clean_tags(f.read())
 
 
 def tag(output_filename):
@@ -28,8 +24,8 @@ def tag(output_filename):
 
 def output(first, second, file_desc):
     uid = str(uuid.uuid4())
-    output_filename = "%s/%s.gif" % (outputDirectory, uid)
-    temp_directory = make_temp_dir(baseDirectory, uid)
+    output_filename = "%s/%s.gif" % (OUTPUT_DIRECTORY, uid)
+    temp_directory = make_temp_dir(BASE_DIRECTORY, uid)
     filename = getfilename(file_desc)
     ret_num = rip_images(first, second, filename, temp_directory) \
       or make_gif(temp_directory, output_filename) \

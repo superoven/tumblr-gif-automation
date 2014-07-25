@@ -1,5 +1,6 @@
-from src.process import output, fifo
+from src.process import output
 from subprocess import call
+from config import FIFO
 import pytest
 
 valid_input_values = [
@@ -17,7 +18,7 @@ invalid_input_values = [
 
 
 def _test_basic(inputs, correct_output):
-    with open(fifo, "r") as f:
+    with open(FIFO, "r") as f:
         ret, filename = output(inputs[0], inputs[1], f)
         assert ret == correct_output
     return filename

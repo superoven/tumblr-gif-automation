@@ -1,9 +1,9 @@
 import pytumblr
 import simplejson
+from config import KEY_FILE
 
-key_file = "/home/taylor/.tumblr_keys"
 
-with open(key_file, "r") as f:
+with open(KEY_FILE, "r") as f:
     client_key = f.readline().rstrip()
     client_secret = f.readline().rstrip()
     resource_owner_key = f.readline().rstrip()
