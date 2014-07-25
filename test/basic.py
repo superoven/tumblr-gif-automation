@@ -1,5 +1,5 @@
 from src.process import output
-from subprocess import call
+from subprocess import call, Popen
 from src.config import FIFO
 import pytest
 

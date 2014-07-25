@@ -1,12 +1,14 @@
 from subprocess import call
 from config import ROOT_DIR
+from urlparse import urljoin
+from getch import getch
 
 YES_ANSWERS = {'', 'y', 'ye', 'yes'}
 NO_ANSWERS = {'n', 'no'}
 
 
 def getfilename(file_desc):
-    call([ROOT_DIR + "scripts/sendm", "get_file_name"])
+    call([urljoin(ROOT_DIR, "scripts/sendm"), "get_file_name"])
     return wait_string(file_desc, 'ANS_FILENAME')
 
 

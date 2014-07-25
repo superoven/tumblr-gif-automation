@@ -1,3 +1,3 @@
 #!/bin/bash
 mplayer -slave "$1" 1> ~/.mplayer_fifo.out &
-python /home/taylor/git/tumblr-gif-automation/src/main.py
+python /home/taylor/git/tumblr-gif-automation/src/main.py "$1"
