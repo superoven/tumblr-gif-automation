@@ -1,6 +1,6 @@
 from src.process import output
 from subprocess import call
-from config import FIFO
+from src.config import FIFO
 import pytest
 
 valid_input_values = [

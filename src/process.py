@@ -6,7 +6,7 @@ import uuid
 
 
 def clean_tags(s):
-    return s.split(',').map(lambda x: x.lstrip().rstrip())
+    return map(lambda x: x.lstrip().rstrip(),s.split(','))
 
 with open(TAGS_FILE, 'r') as f:
     default_tags = clean_tags(f.read())
