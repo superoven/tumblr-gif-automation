@@ -1,6 +1,7 @@
 from subprocess import call
 from os import devnull, listdir
 from config import ROOT_DIR
+from urlparse import urljoin
 
 
 def make_temp_dir(base_dir, uid):
@@ -24,7 +25,7 @@ def rip_images(first_time, second_time, filename, temp_dir):
 
 def make_gif(temp_directory, output_directory):
     print "Making GIF(s)..."
-    return call([ROOT_DIR + "scripts/makegif", str(len(listdir(temp_directory))), output_directory, temp_directory])
+    return call([urljoin(ROOT_DIR, "scripts/makegif"), str(len(listdir(temp_directory))), output_directory, temp_directory])
 
 
 def open_gif(filename):

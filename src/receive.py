@@ -1,16 +1,32 @@
 from subprocess import call
-from config import ROOT_DIR
+from config import ROOT_DIR, INPUT_FIFO
+from urlparse import urljoin
 
 YES_ANSWERS = {'', 'y', 'ye', 'yes'}
 NO_ANSWERS = {'n', 'no'}
 
 
+def send_time_request():
+    with open(INPUT_FIFO, 'w') as f:
+        print >>f, "get_time_pos"
+
+
+def capture_input():
+    val = raw_input("-- Press Enter to capture --")
+    while val != '\n':
+        val = raw_input()
+        if val[0] == 'q':
+            quit()
+    send_time_request()
+
+
 def getfilename(file_desc):
-    call([ROOT_DIR + "scripts/sendm", "get_file_name"])
+    call([urljoin(ROOT_DIR, "scripts/sendm"), "get_file_name"])
     return wait_string(file_desc, 'ANS_FILENAME')
 
 
 def get_time(file_desc):
+    capture_input()
     return wait_float(file_desc, 'ANS_TIME_POSITION')
 
 
