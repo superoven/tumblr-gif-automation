@@ -20,14 +20,24 @@ def capture_input():
     send_time_request()
 
 
-def getfilename(file_desc):
-    call([urljoin(ROOT_DIR, "scripts/sendm"), "get_file_name"])
-    return wait_string(file_desc, 'ANS_FILENAME')
+def getfilename(p):
+    return perform_command(p, 'get_file_name', 'ANS_FILENAME')
 
 
-def get_time(file_desc):
-    capture_input()
-    return wait_float(file_desc, 'ANS_TIME_POSITION')
+def get_time(p):
+    return perform_command(p, 'get_time_pos', 'ANS_TIME_POSITION')
+
+
+def perform_command(p, cmd, expect):
+    import select
+    p.stdin.write(cmd + '\n')
+    while select.select([p.stdout], [], [], 0.05)[0]:
+        output = p.stdout.readline()
+        print("output: {}".format(output.rstrip()))
+        split_output = output.split(expect + '=', 1)
+        if len(split_output) == 2 and split_output[0] == '':
+            value = split_output[1]
+            return value.rstrip()
 
 
 def wait_float(file_desc, name):
