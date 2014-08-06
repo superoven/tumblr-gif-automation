@@ -1,15 +1,33 @@
-from receive import get_time
-from process import output, tag
-from config import FIFO
+from process import Engine
+import Tkinter as tk
+import subprocess
 import sys
-from bot import upload_gif
+import fcntl
+import os
 
 
-def main():
-    while 1:
-        with open(FIFO, "r") as f:
-            fail_status, output_filename = output(get_time(f), get_time(f), f)
-            if not fail_status:
-                upload_gif(output_filename, tag(output_filename))
+def main(filename):
+    cmd = ['mplayer', '-slave', '-quiet', filename]
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    fcntl.fcntl(p.stdout.fileno(), fcntl.F_SETFL,
+                fcntl.fcntl(p.stdout.fileno(), fcntl.F_GETFL) | os.O_NONBLOCK)
 
-main()
+    root = tk.Tk()
+    s = Engine(p, root, filename)
+
+    def onKeyPress(event):
+        if event.char == 'q':
+            s.kill()
+        elif event.char == 'a':
+            s.perform_command('get_time_pos', 'ANS_TIME_POSITION')
+        else:
+            pass
+
+    root.bind('<KeyPress>', onKeyPress)
+    root.mainloop()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print "Give me a video file"
+        exit()
+    main(sys.argv[1])

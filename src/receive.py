@@ -1,9 +1,14 @@
 from subprocess import call
 from config import ROOT_DIR, INPUT_FIFO
 from urlparse import urljoin
+import select
 
 YES_ANSWERS = {'', 'y', 'ye', 'yes'}
 NO_ANSWERS = {'n', 'no'}
+
+
+def send_command(p, cmd):
+    p.stdin.write(cmd + '\n')
 
 
 def send_time_request():
@@ -20,14 +25,21 @@ def capture_input():
     send_time_request()
 
 
-def getfilename(file_desc):
-    call([urljoin(ROOT_DIR, "scripts/sendm"), "get_file_name"])
-    return wait_string(file_desc, 'ANS_FILENAME')
+def getfilename(p):
+    return wait_command(p, 'ANS_FILENAME')
 
 
-def get_time(file_desc):
-    capture_input()
-    return wait_float(file_desc, 'ANS_TIME_POSITION')
+def get_time(p):
+    return send_command(p, "get_time_pos")
+
+
+def wait_command(p, expect):
+    while 1:
+        out = p.stdout.readline()
+        split_output = out.split(expect + '=', 1)
+        if len(split_output) == 2 and split_output[0] == '':
+            value = split_output[1]
+            return float(value.rstrip())
 
 
 def wait_float(file_desc, name):
