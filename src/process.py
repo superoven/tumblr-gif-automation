@@ -30,4 +30,6 @@ def output(first, second, filename):
     ret_num = rip_images(first, second, filename, temp_directory) \
       or make_gif(temp_directory, output_filename) \
       or open_gif(output_filename)
+    if ret_num:
+        print "--- BREAKING GIF PIPELINE - GIF NOT CREATED ---"
     return ret_num, output_filename

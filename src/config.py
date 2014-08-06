@@ -3,6 +3,7 @@ from urlparse import urljoin
 
 ROOT_DIR = normpath(join(abspath(__file__), '..'))
 
+INPUT_FIFO = '/home/taylor/.mplayer_fifo'
 FIFO = '/home/taylor/.mplayer_fifo.out'
 BASE_DIRECTORY = '/tmp/mplayer'
 OUTPUT_DIRECTORY = urljoin(ROOT_DIR, 'output')
