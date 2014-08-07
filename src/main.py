@@ -1,4 +1,4 @@
-from process import Engine
+from receive import ReceiveEngine
 import Tkinter as tk
 import subprocess
 import sys
@@ -13,7 +13,7 @@ def main(filename):
                 fcntl.fcntl(p.stdout.fileno(), fcntl.F_GETFL) | os.O_NONBLOCK)
 
     root = tk.Tk()
-    s = Engine(p, root, filename)
+    s = ReceiveEngine(p, root, filename)
 
     def onKeyPress(event):
         if event.char == 'q':
@@ -28,6 +28,6 @@ def main(filename):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print "Give me a video file"
+        subprocess.call(["mplayer"])
         exit()
     main(sys.argv[1])

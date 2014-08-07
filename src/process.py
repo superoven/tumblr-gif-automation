@@ -1,40 +1,10 @@
 from subprocess import call
-from receive import getfilename, yes_or_no
+from receive import yes_or_no
 from shell_calls import make_temp_dir, rip_images, make_gif, open_gif
 from config import TAGS_FILE, OUTPUT_DIRECTORY, BASE_DIRECTORY
 import uuid
 from bot import upload_gif
 import json
-
-
-class Engine:
-    def __init__(self, p, root, filename):
-        self.vals = []
-        self.filename = filename
-        self.root = root
-        self.p = p
-
-    def perform_command(self, cmd, expect):
-        import select
-        self.p.stdin.write(cmd + '\n')
-        while select.select([self.p.stdout], [], [], 0.05)[0]:
-            out = self.p.stdout.readline()
-            split_output = out.split(expect + '=', 1)
-            if len(split_output) == 2 and split_output[0] == '':
-                value = split_output[1]
-                self.vals.append(float(value.rstrip()))
-                if len(self.vals) >= 2:
-                    first = self.vals[0]
-                    second = self.vals[1]
-                    self.vals = []
-                    fail_status, output_filename = output(first, second, self.filename)
-                    if not fail_status:
-                        tag(self.filename, output_filename)
-                    return
-
-    def kill(self):
-        self.root.quit()
-        self.p.kill()
 
 
 def get_title(filename):

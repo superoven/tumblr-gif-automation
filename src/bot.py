@@ -4,6 +4,7 @@ from config import KEY_FILE
 
 
 with open(KEY_FILE, "r") as f:
+    username = f.readline().rstrip()
     client_key = f.readline().rstrip()
     client_secret = f.readline().rstrip()
     resource_owner_key = f.readline().rstrip()
@@ -16,6 +17,6 @@ def upload_gif(filename, tags):
         client_secret,
         resource_owner_key,
         resource_owner_secret
-    ).create_photo('superoven', state="draft", tags=tags,
+    ).create_photo(username, state="draft", tags=tags,
                    format="markdown", data=[filename])
     print simplejson.dumps(resp, indent=2)
